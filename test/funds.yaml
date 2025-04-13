@@ -1,0 +1,15 @@
+mandatory_columns: # Mandatory columns in fund tables
+  isin: isin
+
+optional_columns:  # Optional columns in fund tables
+  value_number:
+  quantity: quantity
+  name: name
+  value: value
+  country: country
+  currency:
+
+other_columns: # Other columns that must exist in fund tables
+  - Column 1
+  - Column X
+

@@ -1,0 +1,18 @@
+## Specification of PDF tables from DeGiro fund summary
+## for customers in CH, with language IT
+## Decimal separator: .
+## Thousand separator: '
+
+mandatory_columns: # Mandatory columns in fund tables
+  isin: ISIN
+
+optional_columns:  # Optional columns in fund tables
+  value_number:
+  quantity: Quantità
+  name: Prodotto
+  value: Valore in CHF
+  country:
+  currency:
+
+other_columns: # Other columns that must exist in fund tables
+  - Ultimo prezzo

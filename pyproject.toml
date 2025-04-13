@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "secblk"
+version = "0.0.1"
+description = "Extract securities tables from PDFs."
+readme = "README.md"
+license = {file="LICENSE.md"}
+authors = [
+  {name = "Carlo A. Furia", email = "c.a.furia@gmail.com"},
+]
+keywords = ["PDF", "tables", "isin"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Natural Language :: English",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent"
+]
+
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml",
+    "openpyxl",
+    "pandas",
+    "tabula-py",
+    "requests"
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "*.yaml"
+]
+
+[tool.hatch.build.targets.wheel]
+only-include = ["secblk"] # Include these directories
+
+# Tests are not packaged, but can still be run with editable install
+# of `dev` target
+[tool.hatch.metadata]
+exclude = [
+    "/test",    
+]
+
+[project.urls]
+Repository = "https://github.com/bugcounting/secblk.git"
+
+[project.optional-dependencies]
+docling = [
+    "docling"
+]
+dev = [
+    "docling",
+    "pytest"
+]
+
+[project.scripts]
+secblk = "secblk.subs:main"
