@@ -320,7 +320,7 @@ def find_tables(document: Union["DoclingDocument", # pyright: ignore[reportUndef
 
 
 def tables_to_xlsx(tables: list[AbstractTable], file_path: str,   # pylint: disable=too-many-locals  # Not sure it's worth refactoring
-                   sheet_name: str, widths: dict[str, int]=None) -> None:
+                   sheet_name: str, widths: dict[str, int]=None, summarize_work: bool=False) -> None:
     """
     Export a list of AbstractTable instances to an XLSX file. The tables must have the same
     columns, otherwise the export will fail.
@@ -332,11 +332,13 @@ def tables_to_xlsx(tables: list[AbstractTable], file_path: str,   # pylint: disa
         widths: A dictionary mapping column names to their widths. Any column not in
                 this dictionary will be set to fit its content.
     """
-    logging.info("Exporting %d tables to XLSX file", len(tables))
+    if not summarize_work:
+        logging.info("Exporting %d tables to XLSX file", len(tables))
     # Create a new workbook and select the active worksheet
     workbook = Workbook()
     sheet = workbook.active
     sheet.title = sheet_name
+    all_rows = 0
     if widths is None:
         widths = {}
     widths_idx = {}
@@ -357,8 +359,11 @@ def tables_to_xlsx(tables: list[AbstractTable], file_path: str,   # pylint: disa
         n_row = 0
         for n_row, row_dict in enumerate(table, start=1):
             row = list(row_dict.values())
+            all_rows += 1
             sheet.append(row)
-        logging.info("Exported %d rows in table #%d", n_row, num + 1)
+        if not summarize_work:
+            logging.info("Exported %d rows in table #%d", n_row, num + 1)
+    logging.info("Exported %d rows in %d tables", all_rows, len(tables))
     # Adjust column widths
     for num, col in enumerate(sheet.columns):
         max_length = 0
@@ -375,3 +380,4 @@ def tables_to_xlsx(tables: list[AbstractTable], file_path: str,   # pylint: disa
         sheet.column_dimensions[col_letter].width = adjusted_width
     # Save the workbook to the specified file path
     workbook.save(file_path)
+    logging.info("Written file: %s", file_path)

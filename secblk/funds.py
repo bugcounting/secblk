@@ -204,4 +204,4 @@ def funds_to_xlsx(funds: list[Fund], file_path: str, name_width: int) -> None:
         name_width: Width of the "Name" column in the XLSX file.
     """
     tables_to_xlsx(tables=funds, file_path=file_path,
-                   sheet_name="Funds", widths={"Name": name_width})
+                   sheet_name="Funds", widths={"Name": name_width}, summarize_work=True)
